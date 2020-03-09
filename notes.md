@@ -28,6 +28,7 @@
   - Second-hand privacy invasion
 - Reliance on Git web UIs
   - Not accountable given things can technically be spoofed
+- "EARN IT" and the implications of attempting to ban cryptography
 - Open-source microtransaction disrupting advertising industry
   - lbry.io
   - BAT
