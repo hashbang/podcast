@@ -21,6 +21,13 @@
 - Role of open source in self-driving automobile tech
   - nvidia's role in this? Are they still dicks?
 - Variations in how different cultures approach security
+- Positive and negative outcomes of global pandemic / social distancing
+  - **Negatives**
+  - Phishing on the rise
+  - Increased surveillance from government
+  - **Positives**
+  - Introducing working from home
+  - Schools distributed across thousands
 - Twitter: will it federate? what will it look like?
   - Role of ActivityPub? Brought about by AP? Will AP be involved?
 - Biohacking: Giving the FDA a middle finger, and humans the right to live
@@ -36,6 +43,7 @@
 - DMCA and Illegal Primes
   - Illegal to reverse engineer copyright protection
   - Illegal to obtain certain prime numbers
+- Hands-Free Devices
 - Abuse of and from the copyright system
   - Flame v Taylor Swift
   - YouTube's copyright system
