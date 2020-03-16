@@ -9,7 +9,7 @@ GWFA_FRAMERATE=${GWFA_FRAMERATE:-60}  # Should be 25, 30, 50, 60
 filter=(
   "s=$GWFA_RES"
   "mode=$GWFA_MODE"
-  "colors=$GWFA_COLOR|black"
+  "colors=$GWFA_COLOR|cyan"
   "scale=$GWFA_SCALE"
   "r=$GWFA_FRAMERATE"
 )
