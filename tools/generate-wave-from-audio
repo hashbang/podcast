@@ -1,7 +1,7 @@
 #!/bin/bash
 
 GWFA_RES=${GWFA_RES:-1920x1080}  # Resolution of output video
-GWFA_MODE=${GWFA_MODE:-cline}  # One of: point, line, p2p, cline.
+GWFA_MODE=${GWFA_MODE:-p2p}  # One of: point, line, p2p, cline.
 GWFA_COLOR=${GWFA_COLOR:-lime}  # An ffmpeg color or hex color
 GWFA_SCALE=${GWFA_SCALE:-lin}  # One of: lin, log, sqrt, cbrt
 GWFA_FRAMERATE=${GWFA_FRAMERATE:-60}  # Should be 25, 30, 50, 60
