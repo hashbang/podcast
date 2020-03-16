@@ -77,3 +77,28 @@
 - Hacking your friends and coworkers (responsibly!)
 - Is "Digital Soverignty" achievable, or worth it?
 - Immutable wealth - Operating without a government
+
+# Tools
+
+To add the tools to your PATH, use `source tools/activate`.
+
+## generate-wave-from-audio
+
+Takes two arguments, the first being an audio input, the second being a video
+container output. The generated video can be tweaked by using the following
+environment variables:
+
+- GWFA_RES (default "1920x1080"): Resolution of the generated file
+- GWFA_MODE (default "p2p"): Generated line format
+  - `line` generates a thick wave on only one side of the wave at a time
+  - `cline` generates a thick wave mirrored on both sides of the wave
+  - `p2p` generates a thin line
+  - `point` generates a less-solid line, but takes less time, useful for tests
+- GWFA_COLOR (default "lime"): ffmpeg-compatible color to make the line/wave
+- GWFA_SCALE (default "lin"): Calculation used for amplitude scaling
+  - `lin`: Linear
+  - `log`: Logarithmic
+  - `sqrt`: Square Root
+  - `cbrt`: Cubic Root
+- GWFA_FRAMERATE (default "60"): Framerate to use for video
+  - Should be one of 25, 30, 50, 60, and match the framerate of the final video
