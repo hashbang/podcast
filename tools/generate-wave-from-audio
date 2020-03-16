@@ -1,0 +1,29 @@
+#!/bin/bash
+
+GWFA_RES=${GWFA_RES:-1920x1080}  # Resolution of output video
+GWFA_MODE=${GWFA_MODE:-cline}  # One of: point, line, p2p, cline.
+GWFA_COLOR=${GWFA_COLOR:-lime}  # An ffmpeg color or hex color
+GWFA_SCALE=${GWFA_SCALE:-lin}  # One of: lin, log, sqrt, cbrt
+GWFA_FRAMERATE=${GWFA_FRAMERATE:-60}  # Should be 25, 30, 50, 60
+
+filter=(
+  "s=$GWFA_RES"
+  "mode=$GWFA_MODE"
+  "colors=$GWFA_COLOR|black"
+  "scale=$GWFA_SCALE"
+  "r=$GWFA_FRAMERATE"
+)
+
+joinby() {
+  local IFS="$1"
+  shift
+  echo "$*"
+}
+
+ffmpeg -i "$1" \
+  -filter_complex "[0:a]showwaves=$(joinby : ${filter[@]}),format=yuv420p[v]" \
+  -map "[v]" \
+  -map 0:a \
+  -c:v libx264 \
+  -c:a copy \
+  "$2"
