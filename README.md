@@ -20,6 +20,9 @@
 
 - Role of open source in self-driving automobile tech
   - nvidia's role in this? Are they still dicks?
+- Ensuring integrity of assets loaded by programs
+  - Zoom disabling memory modifications allowing camera access
+  - Discord not verifying JavaScript assets
 - Variations in how different cultures approach security
 - Positive and negative outcomes of global pandemic / social distancing
   - **Negatives**
