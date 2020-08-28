@@ -1,0 +1,23 @@
+on:
+  release:
+    types:
+    - created
+jobs:
+  upload-to-cdn:
+    name: Upload to CDN
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        lfs: true
+    - name: S3 Sync
+      uses: tpaschalis/s3-sync-action@19f2770eed37e254254c5facca8ef039184fc01b
+      with:
+        args: --acl public-read
+      env:
+        FILE: ./episodes
+        AWS_REGION: ${{ secrets.AWS_REGION }}
+        AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
