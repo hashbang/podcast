@@ -50,7 +50,7 @@ jobs:
     - id: get-metadata
       uses: ./.github/actions/generate-metadata.yaml
       env:
-        EP_FILE: "${{ jobs.upload-to-cdn.outputs.mp3 }}"
+        EP_FILE: "${{ needs.upload-to-cdn.outputs.mp3 }}"
     - name: PR Generator
       run: |-
         envsubst <<EOF
