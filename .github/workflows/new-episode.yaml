@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       mp3: "${{ steps.file-data.outputs.mp3 }}"
-      cdn_link: "https://${{ secrets.AWS_S3_BUCKET }}.s3.amazonaws.com/${{ steps.file-data.outputs.mp3 }}"
+      mp3_short: "${{ steps.file-data.outputs.mp3_short }}"
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -22,6 +22,7 @@ jobs:
       run: |-
         CHANGED_FILE="$(git diff --name-only 'HEAD^' episodes/*.mp3)"
         echo "::set-output name=mp3::${CHANGED_FILE}"
+        echo "::set-output name=mp3_short::$(cut -d/ -f2 <<<${CHANGED_FILE})"
         [ ! "${CHANGED_FILE}" = "" ]
     - name: S3 Sync
       uses: tpaschalis/s3-sync-action@19f2770eed37e254254c5facca8ef039184fc01b
@@ -49,7 +50,7 @@ jobs:
           | awk '/^Title:/ { $1=""; print $0 }' \
           | tail -c +2
     - id: get-metadata
-      uses: ./.github/actions/generate-metadata.yaml
+      uses: ./.github/actions/generate-metadata
       env:
         EP_FILE: "${{ needs.upload-to-cdn.outputs.mp3 }}"
     - name: PR Generator
@@ -57,22 +58,21 @@ jobs:
         envsubst <<EOF
         ---
         title: "${EP_TITLE}"
-        params:
-          podcast:
-            file_size: "${EP_FILE_SIZE}"
-            mp3_permalink: "${EP_LINK}"
-            duration: "${EP_DURATION}"
-            image:
-              src: null
-            episode: null
-            episodeType: "${EP_TYPE}"
-            season: null
-            block: null
-            explicit: true
+        podcast:
+          file_size: "${EP_FILE_SIZE}"
+          mp3_permalink: "${EP_LINK}"
+          duration: "${EP_DURATION}"
+          image:
+            src: null
+          episode: null
+          episodeType: "${EP_TYPE}"
+          season: null
+          block: null
+          explicit: true
         ---
         EOF
       env:
         EP_TITLE: "${{ steps.get-episode-title.outputs.ep_title }}"
         EP_DURATION: "${{ steps.get-metadata.outputs.ep_duration }}"
         EP_FILE_SIZE: "${{ steps.get-metadata.outputs.ep_size }}"
-        EP_LINK: "${{ needs.upload-to-cdn.outputs.cdn_link }}"
+        EP_LINK: "https://${{ secrets.AWS_S3_BUCKET }}.s3.amazonaws.com/${{ needs.upload-to-cdn.outputs.mp3_short }}"
