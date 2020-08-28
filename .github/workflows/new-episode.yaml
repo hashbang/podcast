@@ -9,11 +9,18 @@ jobs:
   upload-to-cdn:
     name: Upload to CDN
     runs-on: ubuntu-latest
+    outputs:
+      mp3: "${{ steps.step2.outputs.mp3 }}"
+      cdn_link: "https://${{ secrets.AWS_S3_BUCKET }}.s3.amazonaws.com/${{ steps.step2.outputs.mp3 }}"
     steps:
     - name: Checkout
       uses: actions/checkout@v2
       with:
         lfs: true
+    - run: |-
+        CHANGED_FILE="$(git diff --name-only 'HEAD^' episodes/*.mp3)"
+        echo "::set-output name=mp3::${CHANGED_FILE}"
+        [ ! "${CHANGED_FILE}" = "" ]
     - name: S3 Sync
       uses: tpaschalis/s3-sync-action@19f2770eed37e254254c5facca8ef039184fc01b
       with:
@@ -24,3 +31,45 @@ jobs:
         AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  create-pull-request-for-new-episodes:
+    name: Create PR for New Episodes
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        lfs: true
+    - name: Get Episode Title
+      run: |-
+        echo -n "::set-output name=ep_title::"
+        git log --format=%B -n 1 HEAD \
+          | awk '/^Title:/ { $1=""; print $0 }' \
+          | tail -c +2
+    - name: Acquire runtime and size
+      uses: ./.github/actions/generate-metadata.yaml
+      env:
+        EP_FILE: "${{ jobs.upload-to-cdn.outputs.mp3 }}"
+    - name: PR Generator
+      run: |-
+        envsubst <<EOF
+        ---
+        title: "${EP_TITLE}"
+        params:
+          podcast:
+            file_size: "${EP_FILE_SIZE}"
+            mp3_permalink: "${EP_LINK}"
+            duration: "${EP_DURATION}"
+            image:
+              src: null
+            episode: null
+            episodeType: "${EP_TYPE}"
+            season: null
+            block: null
+            explicit: true
+        ---
+        EOF
+      env:
+        EP_TITLE: "${{ steps.step2.outputs.ep_title }}"
+        EP_DURATION: "${{ steps.step3.outputs.ep_duration }}"
+        EP_FILE_SIZE: "${{ steps.step3.outputs.ep_size }}"
+        EP_LINK: "${{ jobs.upload-to-cdn.outputs.cdn_link }}"
