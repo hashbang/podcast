@@ -1,0 +1,6 @@
+name: Generate Metadata
+author: Ryan Heywood <ryan@hashbang.sh>
+description: Generate ffprobe metadata for files
+runs:
+  using: 'docker'
+  image: 'Dockerfile-generate-metadata'
