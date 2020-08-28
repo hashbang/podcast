@@ -17,6 +17,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         lfs: true
+        fetch-depth: 2
     - id: file-data
       run: |-
         CHANGED_FILE="$(git diff --name-only 'HEAD^' episodes/*.mp3)"
