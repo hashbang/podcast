@@ -1,4 +1,7 @@
 on:
+  push: # TODO remove
+    branches:
+    - master
   release:
     types:
     - created
