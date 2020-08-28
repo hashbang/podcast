@@ -17,7 +17,7 @@ jobs:
     - name: S3 Sync
       uses: tpaschalis/s3-sync-action@19f2770eed37e254254c5facca8ef039184fc01b
       with:
-        args: --acl public-read
+        args: --acl public-read --recursive
       env:
         FILE: ./episodes
         AWS_REGION: ${{ secrets.AWS_REGION }}
