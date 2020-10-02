@@ -71,6 +71,7 @@
 - Running your own infrastructure
   - "De-Google" your life
   - History of #! and why your own service infrastructure is actually hard
+  - [TuringPi's](https://turingpi.com/)
 - Shamir's Secret Sharing
 - Toolchain security
   - Kernel/compiler memory access violations
@@ -88,6 +89,9 @@
 - Hacking your friends and coworkers (responsibly!)
 - Is "Digital Soverignty" achievable, or worth it?
 - Immutable wealth - Operating without a government
+- Blockchain and Cryptocurrency
+  - [Nugbase](https://github.com/nugbase), [FlowerPatch](https://flowerpatch.app/explorer), and growing weed on the ethereum blockchain
+  - Protecting Digital Assets with a hardware wallet -- closed and opensource solutions
 
 # Tools
 
